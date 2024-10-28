@@ -1,13 +1,33 @@
 package jom.com.softserve.s6.task4;
 
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Locale;
 
 public class MyUtils {
 
-    //Write your code here
+    public static String readFile(String filename) {
+        StringBuilder binaryString = new StringBuilder();
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            binaryString.append(reader.readLine());
+        } catch (IOException e) {
+            e.getCause();
+        }
+
+
+        StringBuilder result = new StringBuilder();
+        int i = 0;
+
+        while (i < binaryString.length()) {
+            String byteSegment = binaryString.substring(i, i + 7);
+
+            int charCode = Integer.parseInt(byteSegment, 2);
+
+            result.append((char) charCode);
+
+            i += byteSegment.length() + (byteSegment.length() < 7 ? 1 : 0);
+        }
+        return result.toString();
+    }
 }
